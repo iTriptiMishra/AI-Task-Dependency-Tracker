@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+// Use the Vercel environment variable
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function TaskDependencyTracker() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/tasks")
+    fetch(`${API_URL}/tasks`)  // Use dynamic API URL
       .then((res) => res.json())
       .then((data) => {
         setTasks(data);
@@ -16,7 +19,7 @@ export default function TaskDependencyTracker() {
   }, []);
 
   const updateTaskStatus = (taskId, newStatus) => {
-    fetch("http://localhost:5000/update_task", {
+    fetch(`${API_URL}/update_task`, {  // Use dynamic API URL
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ task_id: taskId, status: newStatus })
